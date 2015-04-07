@@ -26,7 +26,7 @@ ArrayList<RadialMenu> menus;
 ArrayList<Question> questions;
 //ArrayList<String> answers;
 int MENUCOUNT = 6; //Used for max possible menus on your display, also passed to maxCursors in TuioHandler
-boolean MENUSINVERTED = true; //Call function's 2nd implementation (if necessary) if inverted, original otherwise
+//boolean MENUSINVERTED = true; //Call function's 2nd implementation (if necessary) if inverted, original otherwise
 //float menuSize = 100;
 
 int Boundary = 0;  //implemented with hard coded magic number height*13/16
@@ -123,10 +123,7 @@ void draw() {
     
     for (int i = 0; i < menus.size(); i++) {
         bub = menus.get(i);
-        if(MENUSINVERTED)
-            bub.display2();
-        else
-            bub.display();
+        bub.display();
     }
   //myTuioHandler.debugCursors();
   
