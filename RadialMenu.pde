@@ -335,11 +335,11 @@ class RadialMenu {
       text("without saving?", 0, 30);
       
       int rectWidth = width/200;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      translate(0, -2*rectWidth);
-      triangle(-rectWidth, 0, 0, -rectWidth, rectWidth, 0);
-      popMatrix(); println(--matrixcount);
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
+      //translate(0, -2*rectWidth);
+      triangle(-rectWidth, -2*rectWidth, 0, -rectWidth-2*rectWidth, rectWidth, -2*rectWidth);
+      //popMatrix(); println(--matrixcount);
       
       textFont(sansSerifBold100);
       textSize(70);
@@ -355,13 +355,13 @@ class RadialMenu {
       strokeWeight(width/43.2);
       arc(0, 0, outerRadius, outerRadius, PI + PI/3 + PI/180, PI + PI/2 - PI/180);
       theta = PI + 5*PI/12;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      translate(r*cos(theta), r*sin(theta));
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
+      //translate(r*cos(theta), r*sin(theta));
       //rotate(theta-PI/2); // rotation is offset by 90 degrees
       fill(0);
-      text("Y", 0, 30);
-      popMatrix(); println(--matrixcount);
+      text("Y", r*cos(theta), 30+r*sin(theta));
+      //popMatrix(); println(--matrixcount);
   
       //Yes segment
       noFill();
@@ -371,12 +371,12 @@ class RadialMenu {
       strokeWeight(width/43.2);
       arc(0, 0, outerRadius, outerRadius, PI + PI/2 + PI/180, PI + 2*PI/3 - PI/180);
       theta = PI + 7*PI/12;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      translate(r*cos(theta), r*sin(theta));
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
+      //translate(r*cos(theta), r*sin(theta));
       fill(0);
-      text("N", 0, 30);
-      popMatrix(); println(--matrixcount);
+      text("N", r*cos(theta), 30+r*sin(theta));
+      //popMatrix(); println(--matrixcount);
       
       popStyle();
   }
@@ -507,43 +507,43 @@ class RadialMenu {
   // Draws arrow to proceed to next question   
   void drawNextArrow(int alpha) {
     int rectWidth = width/144;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
+    //pushMatrix(); println(++matrixcount);
+    //matrices++;
     pushStyle();
     noStroke();
     fill(255, alpha);
-    translate(radius*6/10, -radius*5/10);
-    triangle(0, 0, 0, 2*rectWidth, rectWidth, rectWidth);
+    //translate(radius*6/10, -radius*5/10);
+    triangle(radius*6/10, -radius*5/10, radius*6/10, 2*rectWidth-radius*5/10, rectWidth+radius*6/10, rectWidth-radius*5/10);
     //triangle(0, -rectWidth, 0, rectWidth, rectWidth, 0);
     popStyle();
-    popMatrix(); println(--matrixcount);
+    //popMatrix(); println(--matrixcount);
   }
 
   // Draws arrow to go back to previous question
   void drawBackArrow(int alpha) {
     int rectWidth = width/144;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
+    //pushMatrix(); println(++matrixcount);
+    //matrices++;
     pushStyle();
     noStroke();
     fill(255, alpha);
-    translate(-radius*6/10, -radius*5/10);   
+    //translate(-radius*6/10, -radius*5/10);   
     //rect(-rectWidth/2, -rectWidth/2, rectWidth, rectWidth);
-    triangle(0, 0, 0, 2*rectWidth, -rectWidth, rectWidth);
+    triangle(-radius*6/10,  -radius*5/10, -radius*6/10, 2*rectWidth -radius*5/10, -rectWidth-radius*6/10, rectWidth -radius*5/10);
     popStyle();
-    popMatrix(); println(--matrixcount);
+    //popMatrix(); println(--matrixcount);
   }
   
   void displaySubmissionArrow() {
       int rectWidth = width/200;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
       pushStyle();
-      translate(0, 2*rectWidth);
+      //translate(0, 2*rectWidth);
       fill(#FFFF00);
-      triangle(-rectWidth, 0, 0, rectWidth, rectWidth, 0);
+      triangle(-rectWidth, 2*rectWidth, 0, 3*rectWidth, rectWidth, 2*rectWidth);
       popStyle();
-      popMatrix(); println(--matrixcount);  
+      //popMatrix(); println(--matrixcount);  
 //      print("HI THERE!\n"); 
 //      noLoop();
   }
@@ -591,15 +591,15 @@ class RadialMenu {
       arc(0, 0, outerRadius, outerRadius, PI + PI/2 + PI/180, PI + 2*PI/3 - PI/180);
   
       theta = PI + 7*PI/12;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
       pushStyle();
-      translate(r*cos(theta), r*sin(theta));
+      //translate(r*cos(theta), r*sin(theta));
       //rotate(theta-PI/2); // rotation is offset by 90 degrees
       fill(0);
-      text("X", -20, 30);
+      text("X", r*cos(theta)-20, r*sin(theta)+30);
       popStyle();
-      popMatrix(); println(--matrixcount);
+      //popMatrix(); println(--matrixcount);
   
       //help button segment
       noFill();
@@ -611,14 +611,14 @@ class RadialMenu {
       arc(0, 0, outerRadius, outerRadius, PI + PI/3 + PI/180, PI + PI/2 - PI/180);
   
       theta = PI + 5*PI/12;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
       pushStyle();
-      translate(r*cos(theta), r*sin(theta));
+      //translate(r*cos(theta), r*sin(theta));
       fill(0);
-      text("?", -20, 30);
+      text("?", r*cos(theta)-20, r*sin(theta)+30);
       popStyle();
-      popMatrix(); println(--matrixcount);
+      //popMatrix(); println(--matrixcount);
     } 
   }
   
@@ -696,7 +696,7 @@ class RadialMenu {
       printText = "NEXT QUESTION";
       printCurved( printText, 
       radius + 5, 
-      7*PI/6 - textWidth(printText)*0.5/(radius), 
+      11*PI/6 - textWidth(printText)*0.5/(radius), 
       #0222D1, 
       false);
 
@@ -707,18 +707,18 @@ class RadialMenu {
       printText = "PREVIOUS QUESTION";
       printCurved( printText, 
       radius + 5, 
-      11*PI/6 - textWidth(printText)*0.5/(radius), 
+      7*PI/6 - textWidth(printText)*0.5/(radius), 
       #0222D1, 
       false);
 
-      printText = "TOGGLE HELP";
+      printText = "CLOSE";
       printCurved( printText, 
       radius + 5, 
       PI + 7*PI/12 - textWidth(printText)*0.5/(radius), 
       #0222D1, 
       false);
 
-      printText = "CLOSE";
+      printText = "TOGGLE HELP";
       printCurved( printText, 
       radius + 5, 
       PI + 5*PI/12 - textWidth(printText)*0.5/(radius), 
