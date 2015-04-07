@@ -21,11 +21,8 @@ void parse(){
           q.answers[j] = currentLine[j+2];
       }
       
-      
-      //ALWAYS PRINTS ANSWER CHOICES FROM LEFT TO RIGHT
-      if(MENUSINVERTED){
-          q.answers = reverse(q.answers);
-      }
+      //PRINT ANSWER CHOICES FROM LEFT TO RIGHT
+      q.answers = reverse(q.answers);
       
       questions.add(q);
       
