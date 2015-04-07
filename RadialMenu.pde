@@ -150,9 +150,9 @@ class RadialMenu {
       bub = menus.get(i);
       float distanceX = bub.x - x;
       float distanceY = bub.y - y;
-      float theta = atan2(distanceY, distanceX);
+      //float theta = atan2(distanceY, distanceX);
       float distance = sqrt(distanceX*distanceX + distanceY*distanceY);
-      float moveBack = 2*radius + 30 - distance;
+      //float moveBack = 2*radius + 30 - distance;
       if (distance < 2*radius + 30) { //accounting for help text
         //MENUS ARE TOUCHING
         y = oldY;
@@ -167,275 +167,6 @@ class RadialMenu {
   }
 
   void display() {
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    pushStyle();
-    Question q = questions.get(currentQuestionNumber);
-    numSegments = q.numAnswers;
-
-    translate(x, y);
-    
-    if(currentQuestionNumber == questions.size()-1){
-      int rectWidth = width/200;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      pushStyle();
-      translate(0, 2*rectWidth);
-      fill(#FFFF00);
-      triangle(-rectWidth, 0, 0, rectWidth, rectWidth, 0);
-      popStyle();
-      popMatrix(); println(--matrixcount);  
-    }
-    
-    // Draw QR code if currentQuestionNumber is second to
-    // last question
-    if(currentQuestionNumber == questions.size()-2){
-      selected[currentQuestionNumber] = 0; // Select "answer choice" for the user
-      image(qrCode, -rectWidth * 3/2, rectWidth * 2/3, 3 * rectWidth, 3 * rectWidth); 
-    }
-
-    //SEGMENTS FOR THE ANSWER BUTTONS ON UPPER HALF OF MENU
-    pushStyle();
-    textFont(monoSpacedPlain17Font);
-    for (int i = 0; i < numSegments; i++) {
-
-      if (highlighting) stroke(255);
-      else if (i == selected[currentQuestionNumber] && currentQuestionNumber != questions.size()-1)  stroke(255);
-      else               stroke(255, 100);
-      strokeCap(SQUARE);
-      strokeWeight(width/43.2);
-      noFill();
-      arc(0, 0, outerRadius, outerRadius, PI + PI/180 + i*PI/numSegments, PI + (i+1)*PI/numSegments - PI/180);
-
-      if (textWidth(q.answers[i]) < PI*innerRadius/numSegments) {
-        // For every box
-        printCurved(q.answers[i], radius - width/100, PI + (2*i + 1)*PI/(2*numSegments) - textWidth(q.answers[i])*0.55/(radius - width/100), #000000, false);
-      }
-      else {
-        String[] lines = split(q.answers[i], ' ');
-        for (int j = 0; j < lines.length; j++) {
-          printCurved(lines[j], radius - width/120 - j*width/250, PI + (2*i + 1)*PI/(2*numSegments) - textWidth(lines[j])*0.55/(radius - width/100), #000000, false);
-        }
-      }
-    }
-    popStyle();
-
-    //SEGMENTS FOR THE CLOSE AND HELP BUTTONS AT LOWER HALF OF MENU
-    float r = radius - width/130;
-    float theta;
-    
-    if(!deleteRequested){
-      
-    //delete menu segment
-    noFill();
-    if (highlighting) stroke(#FF3636);
-    else stroke(#FF3636, 100);
-    strokeCap(SQUARE);
-    strokeWeight(width/43.2);
-
-    arc(0, 0, outerRadius, outerRadius, PI/3 + PI/180, PI/2 - PI/180);
-
-    textFont(sansSerifBold100);
-    textSize(70);
-
-    theta = 5*PI/12;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    pushStyle();
-    translate(r*cos(theta), r*sin(theta));
-    //rotate(theta-PI/2); // rotation is offset by 90 degrees
-    fill(0);
-    text("X", -30, 0);
-    popStyle();
-    popMatrix(); println(--matrixcount);
-
-    //help segment
-    noFill();
-    if (highlighting) stroke(#0052FF);
-    else stroke(#0052FF, 100);
-    strokeCap(SQUARE);
-    strokeWeight(width/43.2);
-
-    arc(0, 0, outerRadius, outerRadius, PI/2 + PI/180, 2*PI/3 - PI/180);
-
-    theta = 7*PI/12;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    pushStyle();
-    translate(r*cos(theta), r*sin(theta));
-    fill(0);
-    text("?", -15, 0);
-    popStyle();
-    popMatrix(); println(--matrixcount);
-    
-    }
-    
-    //ADDED FOR THE ARROW BUTTONS
-    noFill();
-    if (highlighting) stroke(255);
-    else stroke(255, 50);
-    strokeCap(SQUARE);
-    strokeWeight(width/43.2);
-
-    arc(0, 0, outerRadius, outerRadius, 0 + PI/180, PI/3 - PI/180);         
-
-    noFill();
-    if (highlighting) stroke(255);
-    else stroke(255, 50);
-    strokeCap(SQUARE);
-    strokeWeight(width/43.2);
-
-    arc(0, 0, outerRadius, outerRadius, 2*PI/3 + PI/180, PI - PI/180);
-    
-    if (!help && !deleteRequested) {
-
-      //PRINT QUESTION STRAIGHT - TOP
-      //              pushStyle();
-      //              textFont(monoSpacedPlain128Font);
-      //              textAlign(CENTER);
-      //              textSize(width/200);
-      //              
-      //              fill(#FFFF00);
-      //              text(q.question, -outerRadius, -outerRadius + 30, 2*outerRadius, 3*(textAscent() + textDescent()));
-      //              popStyle();
-
-      //PRINT QUESTION STRAIGHT - MIDDLE
-      //              pushStyle();
-      //              textFont(monoSpacedPlain128Font);
-      //              textAlign(CENTER);
-      //              rectMode(CENTER);
-      //              textSize(width/230);
-      //              
-      //              fill(#FFFF00);
-      //              text(q.question, 0, textAscent() + textDescent(), 2*outerRadius, 3*(textAscent() + textDescent()));
-      //              popStyle();
-
-
-      //PRINT QUESTION CURVED
-      //              textFont(monoSpacedPlain17Font);
-      //              textSize(width/230);
-      //              printCurved(q.question, outerRadius - width/128, 3*PI/2 - textWidth(q.question)*0.5/(outerRadius - width/128), #FFFF00, false);
-
-      //PRINT QUESTION CENTERED
-      pushStyle();
-      textFont(monoSpacedPlain17Font);
-      textAlign(CENTER);
-      rectMode(CENTER);
-      textSize(width/300);
-
-      fill(#FFFF00);
-      text(q.question, 0, 10, 2*innerRadius, 3.1*(textAscent() + textDescent())*ceil(textWidth(q.question)/(innerRadius*4)));
-      popStyle();
-    }
-
-    // With if statement, draws back and next arrows if outerContains returns true
-    if (currentQuestionNumber != 0) {
-      drawBackArrow(255);
-    }
-    else {
-      drawBackArrow(50);
-    }
-    if (selected[currentQuestionNumber] != 999 && currentQuestionNumber != questions.size() - 1) {
-      drawNextArrow(255);
-    }
-    else {
-      drawNextArrow(50);
-    }
-    //Print progress line
-    pushStyle();
-    textFont(monoSpacedPlain17Font);
-    textAlign(CENTER);
-    textSize(width/300);
-
-
-    fill(#FFFF00);        
-    // Print which question out of the total number of questions the user is on
-    if (currentQuestionNumber + 1 <= questions.size() - 2 && !help && !deleteRequested) {
-      text("" + (currentQuestionNumber + 1) + "/" + (questions.size()-2), 0, innerRadius);
-    }
-    popStyle();
-
-    //CONFIRM DELETE PROTOTYPE
-    if(deleteRequested){
-      confirmDelete();
-    }
-
-    if (help) {
-      pushStyle();
-      textFont(monoSpacedPlain17Font);
-      textAlign(CENTER);
-
-      String printText;
-
-      stroke(#0052FF, 100);
-      strokeWeight(1);
-
-      fill(255, 150);
-      ellipse(0, 0, radius*13/16, radius*13/16);
-      fill(#0222D1);
-      text("HOLD HERE TO DRAG", 0, 0);
-      //text(""+frameRate, 0, 0);
-
-      printText = "SELECT ONE OF THE FOLLOWING ANSWER CHOICES";
-      printCurved( printText, 
-                    radius + 5, 
-                    -PI/2 - textWidth(printText)*0.48/(radius), 
-                    #0222D1, 
-                    false);
-
-      //          fill(255, 50);
-      //          rect(radius*3/4, radius*3/4, 400, 100, 50);
-      //          fill(#AA1111);
-      //          text("Tap this arrow to go to next question", radius*3/4, radius*3/4 + 50, 400, 100);
-      printText = "NEXT QUESTION";
-      printCurved( printText, 
-                    radius + 15, 
-                    PI/6 + textWidth(printText)*0.5/(radius), 
-                    #0222D1, 
-                    true);
-
-      //          fill(255, 50);
-      //          rect(-radius*3/4 - 400, radius*3/4, 400, 100, 50);
-      //          fill(#AA1111);
-      //          text("Tap this arrow to go to previous question", -radius*3/4 - 400, radius*3/4 + 50, 400, 100);
-      printText = "PREVIOUS QUESTION";
-      printCurved( printText, 
-                    radius + 15, 
-                    5*PI/6 + textWidth(printText)*0.5/(radius), 
-                    #0222D1, 
-                    true);
-
-      printText = "TOGGLE HELP";
-      printCurved( printText, 
-                    radius + 15, 
-                    7*PI/12 + textWidth(printText)*0.5/(radius), 
-                    #0222D1, 
-                    true);
-
-      printText = "CLOSE";
-      printCurved( printText, 
-                    radius + 15, 
-                    5*PI/12 + textWidth(printText)*0.5/(radius), 
-                    #0222D1, 
-                    true); 
-
-      popStyle();
-    }
-
-
-    //        // Draw Menu Debuging Circles
-    //        stroke(255,0,0);
-    //        strokeCap(SQUARE);
-    //        strokeWeight(1);
-    //        ellipse(0,0, outerRadius, outerRadius);
-    //        ellipse(0,0, innerRadius, innerRadius);
-
-
-    popStyle();
-    popMatrix(); println(--matrixcount);
-  }
-
-  void display2() {
     pushMatrix(); println(++matrixcount);
     matrices++;
     pushStyle();
@@ -514,7 +245,7 @@ class RadialMenu {
     popStyle();
     
     if(deleteRequested){
-        confirmDelete2(); 
+        confirmDelete(); 
     }
 
     if (help) {
@@ -534,8 +265,6 @@ class RadialMenu {
     popMatrix(); println(--matrixcount);
   }
 
-
-
   void printCurved(String word, float radius, float startingPoint, color fontColor, boolean upsideDown) {
     fill(255, 0, 0);
     //textSize(width/300);
@@ -543,7 +272,7 @@ class RadialMenu {
     //DRAW ANSWER TEXT
     float arclength = 0;
 
-    int textSize = 17; //to account for size change when drawing answer text
+    //int textSize = 17; //to account for size change when drawing answer text
     for (int j = 0; j < word.length(); j++) {
       // Instead of a constant width, we check the width of each character.
       char currentChar = word.charAt(j);
@@ -589,70 +318,8 @@ class RadialMenu {
     menus.remove(this);
     surveysSubmitted++;
   }
-
+  
   void confirmDelete(){
-      pushStyle();
-      textFont(monoSpacedPlain17Font);
-      textAlign(CENTER);
-      stroke(#9B0000, 100);
-      strokeWeight(1);
-      fill(255, 150);
-      ellipse(0, 0, radius*13/16, radius*13/16);
-      fill(#9B0000);
-      
-      text("Are", 0, -15);      
-      text("you sure you want to", 0, 0);      
-      text("delete your survey", 0, 15);
-      text("without saving?", 0, 30);
-      
-      int rectWidth = width/200;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      translate(0, 2*rectWidth);
-      triangle(-rectWidth, 0, 0, rectWidth, rectWidth, 0);
-      popMatrix(); println(--matrixcount);
-      
-      textFont(sansSerifBold100);
-      textSize(70);
-      
-      float r = radius - width/130;
-      float theta;
-      
-      //No segment
-      noFill();
-//      if (highlighting) stroke(#FF3636);
-//      else stroke(#FF3636, 100);
-      strokeCap(SQUARE);
-      strokeWeight(width/43.2);
-      arc(0, 0, outerRadius, outerRadius, PI/3 + PI/180, PI/2 - PI/180);
-      theta = 5*PI/12;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      translate(r*cos(theta), r*sin(theta));
-      //rotate(theta-PI/2); // rotation is offset by 90 degrees
-      fill(0);
-      text("N", -10, 0);
-      popMatrix(); println(--matrixcount);
-  
-      //Yes segment
-      noFill();
-//      if (highlighting) stroke(#0052FF);
-//      else stroke(#0052FF, 100);
-      strokeCap(SQUARE);
-      strokeWeight(width/43.2);
-      arc(0, 0, outerRadius, outerRadius, PI/2 + PI/180, 2*PI/3 - PI/180);
-      theta = 7*PI/12;
-      pushMatrix(); println(++matrixcount);
-      matrices++;
-      translate(r*cos(theta), r*sin(theta));
-      fill(0);
-      text("Y", 10, 0);
-      popMatrix(); println(--matrixcount);
-      
-      popStyle();
-  }
-  
-  void confirmDelete2(){
       pushStyle();
       textFont(monoSpacedPlain17Font);
       textAlign(CENTER);
@@ -748,28 +415,6 @@ class RadialMenu {
     float angle = atan2(touchY-y, touchX-x);
     if (angle < 0)  angle += 2*PI;
 
-    if (angle < PI - PI/180 && angle > PI*2/3 + PI/180) {
-      inside = true;
-    } 
-
-    popMatrix(); println(--matrixcount);
-    return inside;
-  }
-
-  boolean backArrowContains2(float touchX, float touchY) {
-    if (currentQuestionNumber == 0) {
-      return false;
-    }
-
-    boolean inside = false;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-
-    translate(x, y);
-
-    float angle = atan2(touchY-y, touchX-x);
-    if (angle < 0)  angle += 2*PI;
-
     if (angle < 4*PI/3 - PI/180 && angle > PI + PI/180) {
       inside = true;
     } 
@@ -779,28 +424,6 @@ class RadialMenu {
   }
 
   boolean nextArrowContains(float touchX, float touchY) {
-    if (selected[currentQuestionNumber] == 999 || currentQuestionNumber == questions.size()) {
-      return false;
-    }
-
-    boolean inside = false;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-
-    translate(x, y);
-
-    float angle = atan2(touchY-y, touchX-x);
-    if (angle < 0)  angle += 2*PI;
-
-    if (angle < PI/3 - PI/180 && angle > 0 + PI/180) {
-      inside = true;
-    } 
-
-    popMatrix(); println(--matrixcount);
-    return inside;
-  }
-
-  boolean nextArrowContains2(float touchX, float touchY) {
     if (selected[currentQuestionNumber] == 999 || currentQuestionNumber == questions.size()) {
       return false;
     }
@@ -825,24 +448,6 @@ class RadialMenu {
     boolean inside = false;
         pushMatrix(); println(++matrixcount);
         matrices++;
-        translate(x, y);
-  
-        float angle = atan2(touchY-y, touchX-x);
-        if (angle < 0)  angle += 2*PI;
-  
-        if (angle < PI/2 - PI/180 && angle > PI/3 + PI/180) {
-          inside = true;
-        }
-  
-  
-        popMatrix(); println(--matrixcount);
-    return inside;
-  }
-
-  boolean deleteButtonContains2(float touchX, float touchY) {
-    boolean inside = false;
-        pushMatrix(); println(++matrixcount);
-        matrices++;
     
         translate(x, y);
     
@@ -858,24 +463,6 @@ class RadialMenu {
   }
 
   boolean helpButtonContains(float touchX, float touchY) {
-    boolean inside = false;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    
-    translate(x, y);
-
-    float angle = atan2(touchY-y, touchX-x);
-    if (angle < 0)  angle += 2*PI;
-
-    if (angle < 2*PI/3 - PI/180 && angle > PI/2 + PI/180) {
-      inside = true;
-    }
-
-    popMatrix(); println(--matrixcount);  
-    return inside;
-  }
-
-  boolean helpButtonContains2(float touchX, float touchY) {
     boolean inside = false;
     pushMatrix(); println(++matrixcount);
     matrices++;
@@ -908,25 +495,6 @@ class RadialMenu {
     if (angle < 0)  angle += 2*PI;
 
     for (int i = 0; i < numSegments; i++) {
-      if (angle < PI + (i+1)*PI/numSegments - PI/180 && angle > PI + PI/180 + i*PI/numSegments) {
-        selected[currentQuestionNumber] = i;
-      }
-    }               
-    popMatrix(); println(--matrixcount);
-    //See which quadrant was last touched and set selected to the index of that quadrant. 0-3 clockwise from bottom right
-  }
-
-
-  void changeSelectedSegment2(float touchX, float touchY) {
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-
-    translate(x, y);
-
-    float angle = atan2(touchY-y, touchX-x);
-    if (angle < 0)  angle += 2*PI;
-
-    for (int i = 0; i < numSegments; i++) {
       if (angle < (i+1)*PI/numSegments - PI/180 && angle > PI/180 + i*PI/numSegments) {
         selected[currentQuestionNumber] = i;
         print(i);
@@ -944,21 +512,6 @@ class RadialMenu {
     pushStyle();
     noStroke();
     fill(255, alpha);
-    translate(radius*7/10, radius*2/5);
-    //triangle(0, 0, 0, 2*rectWidth, rectWidth, rectWidth);
-    triangle(-rectWidth/2, -rectWidth, -rectWidth/2, rectWidth, rectWidth/2, 0);
-    popStyle();
-    popMatrix(); println(--matrixcount);
-  }
-
-  // Draws arrow to proceed to next question   
-  void drawNextArrow2(int alpha) {
-    int rectWidth = width/144;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    pushStyle();
-    noStroke();
-    fill(255, alpha);
     translate(radius*6/10, -radius*5/10);
     triangle(0, 0, 0, 2*rectWidth, rectWidth, rectWidth);
     //triangle(0, -rectWidth, 0, rectWidth, rectWidth, 0);
@@ -968,20 +521,6 @@ class RadialMenu {
 
   // Draws arrow to go back to previous question
   void drawBackArrow(int alpha) {
-    int rectWidth = width/144;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    pushStyle();
-    noStroke();
-    fill(255, alpha);
-    translate(-radius*7/10, radius*2/5);   
-    //rect(-rectWidth/2, -rectWidth/2, rectWidth, rectWidth);
-    triangle(rectWidth/2, -rectWidth, rectWidth/2, rectWidth, -rectWidth/2, 0);
-    popStyle();
-    popMatrix(); println(--matrixcount);
-  } 
-
-  void drawBackArrow2(int alpha) {
     int rectWidth = width/144;
     pushMatrix(); println(++matrixcount);
     matrices++;
@@ -1102,16 +641,16 @@ class RadialMenu {
     
     // With if statement, draws back and next arrows if outerContains returns true
     if (currentQuestionNumber != 0) {
-      drawBackArrow2(255);
+      drawBackArrow(255);
     }
     else {
-      drawBackArrow2(50);
+      drawBackArrow(50);
     }
     if (selected[currentQuestionNumber] != 999 && currentQuestionNumber != questions.size() - 1) {
-      drawNextArrow2(255);
+      drawNextArrow(255);
     }
     else {
-      drawNextArrow2(50);
+      drawNextArrow(50);
     }
   }  
   
