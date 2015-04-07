@@ -50,7 +50,6 @@ public class TuioHandler implements TuioListener {
       if(sqrt(((newTouchX - touchX)*(newTouchX - touchX)) + ((newTouchY - touchY)*(newTouchY - touchY))) <= menuSize)
           return;
     }
-    if(MENUSINVERTED) {
     if (touchObjects.size() < maxCursors) {
       touchObjects.add(tcur);
       float touchX = tcur.getScreenX(p.width);
@@ -67,77 +66,6 @@ public class TuioHandler implements TuioListener {
           bub.help = false;
           bub.deleteRequested = false;
           bub.hasSpring = true;
-          bub.holder = id;
-          bub.offsetX = touchX - bub.x;
-          bub.offsetY = touchY - bub.y;
-          flag = true;
-        }
-        else if (bub.outerContains(touchX, touchY)) {
-          boolean helpFlag = false;
-          boolean deleteFlag = false;
-          bub.changeSelectedSegment2(touchX, touchY);
-          if (bub.deleteButtonContains2(touchX, touchY) && !bub.deleteRequested) { 
-            bub.deleteRequested = true;
-            deleteFlag = true;
-          }else if(bub.deleteButtonContains2(touchX, touchY) && bub.deleteRequested) {
-            bub.deleteRequested = false; 
-          }
-          
-          if (bub.helpButtonContains2(touchX, touchY) && !bub.deleteRequested) { 
-            bub.help = bub.help ? false : true;
-            helpFlag = true;
-          }else if (bub.helpButtonContains2(touchX, touchY) && bub.deleteRequested) {
-            menus.remove(bub); 
-          }
-
-          //Moved here because the arrows are now 'buttons' on the circle
-          if (bub.backArrowContains2(touchX, touchY)) {
-            if (bub.currentQuestionNumber > 0) {
-              bub.currentQuestionNumber--;
-              //                    bub.selected = 999;
-            }
-          }
-
-          if (bub.nextArrowContains2(touchX, touchY)) {
-            if (bub.currentQuestionNumber < questions.size() - 1) {
-              bub.currentQuestionNumber++;
-              //                    bub.selected = 999;
-            }
-          }
-          flag = true;
-          if (!helpFlag)  bub.help = false; //whenever anywhere else is clicked help is turned off
-          if(!deleteFlag) bub.deleteRequested = false; //whenever anywhere else is clicked delete is turned off
-        }
-        if (sqrt((bub.x-touchX)*(bub.x-touchX) + (bub.y-touchY)*(bub.y-touchY)) <= 2*bub.radius + 30) {
-          flag = true;
-          //Stops user from creating menu that touches submission box
-        }
-        else if (bub.subBoxContains(touchX, touchY)) {
-          flag = true;
-        }
-      }
-      if (!flag && menus.size() < MENUCOUNT) {
-        menus.add(new RadialMenu(touchX, touchY));
-        flag = false;
-      }
-    }
-    //ELSE CONDITION FOR IF MENUS ARE NOT INVERTED
-    }else{
-      if (touchObjects.size() < maxCursors) {
-      touchObjects.add(tcur);
-      float touchX = tcur.getScreenX(p.width);
-      float touchY = tcur.getScreenY(p.height);
-      int id = tcur.getCursorID();
-
-      RadialMenu bub;
-      boolean flag = false;
-      for (int i = 0; i < menus.size(); i++) {
-        bub = menus.get(i);
-        if (bub.innerContains(touchX, touchY) && !(bub.hasSpring)) {
-          bub.help = false;
-          bub.deleteRequested = false;
-          bub.hasSpring = true;
-          bub.dragging = true;
           bub.holder = id;
           bub.offsetX = touchX - bub.x;
           bub.offsetY = touchY - bub.y;
@@ -191,7 +119,6 @@ public class TuioHandler implements TuioListener {
         menus.add(new RadialMenu(touchX, touchY));
         flag = false;
       }
-    } 
     }
   }
 
