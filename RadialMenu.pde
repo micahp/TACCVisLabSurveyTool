@@ -41,7 +41,7 @@ class RadialMenu {
     this.y = y;
     bubbleColorInt = random(1, 360);
 
-    //        this.radius = getRadius();
+    //this.radius = getRadius();
     this.innerRadius = menuSize/4;
     this.outerRadius = menuSize;
 
@@ -287,15 +287,19 @@ class RadialMenu {
       float theta = startingPoint + arclength / r;
 
       pushStyle();
-      pushMatrix(); println(++matrixcount);
-      matrices++;
+      //pushMatrix(); println(++matrixcount);
+      //matrices++;
       translate(r*cos(theta), r*sin(theta));
       if (upsideDown)  rotate(theta-PI/2); // rotation is offset by 90 degrees
       else            rotate(theta+PI/2);
       fill(fontColor);
       text(currentChar, 0, 0);
-      popMatrix(); println(--matrixcount);
+      //popMatrix(); println(--matrixcount);
       // Move halfway again
+      if (upsideDown)  rotate(-theta+PI/2); // rotation is offset by 90 degrees
+      else            rotate(-theta-PI/2);
+      
+      translate(-r*cos(theta), -r*sin(theta));
       arclength += w/2;
       popStyle();
     }
@@ -407,10 +411,10 @@ class RadialMenu {
     }
 
     boolean inside = false;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
+    //pushMatrix(); println(++matrixcount);
+    //matrices++;
 
-    translate(x, y);
+    //translate(x, y);
 
     float angle = atan2(touchY-y, touchX-x);
     if (angle < 0)  angle += 2*PI;
@@ -419,7 +423,7 @@ class RadialMenu {
       inside = true;
     } 
 
-    popMatrix(); println(--matrixcount);
+    //popMatrix(); println(--matrixcount);
     return inside;
   }
 
@@ -429,9 +433,9 @@ class RadialMenu {
     }
 
     boolean inside = false;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
-    translate(x, y);
+    //pushMatrix(); println(++matrixcount);
+    //matrices++;
+    //translate(x, y);
 
     float angle = atan2(touchY-y, touchX-x);
     if (angle < 0)  angle += 2*PI;
@@ -440,16 +444,16 @@ class RadialMenu {
       inside = true;
     } 
 
-    popMatrix(); println(--matrixcount);
+    //popMatrix(); println(--matrixcount);
     return inside;
   }
 
   boolean deleteButtonContains(float touchX, float touchY) {
     boolean inside = false;
-        pushMatrix(); println(++matrixcount);
-        matrices++;
+        //pushMatrix(); println(++matrixcount);
+        //matrices++;
     
-        translate(x, y);
+        //translate(x, y);
     
         float angle = atan2(touchY-y, touchX-x);
         if (angle < 0)  angle += 2*PI;
@@ -458,16 +462,16 @@ class RadialMenu {
           inside = true;
         }
     
-        popMatrix(); println(--matrixcount); 
+        //popMatrix(); println(--matrixcount); 
     return inside;
   }
 
   boolean helpButtonContains(float touchX, float touchY) {
     boolean inside = false;
-    pushMatrix(); println(++matrixcount);
-    matrices++;
+    //pushMatrix(); println(++matrixcount);
+    //matrices++;
 
-    translate(x, y);
+    //translate(x, y);
 
     float angle = atan2(touchY-y, touchX-x);
     if (angle < 0)  angle += 2*PI;
@@ -476,7 +480,7 @@ class RadialMenu {
       inside = true;
     }
 
-    popMatrix(); println(--matrixcount);  
+    //popMatrix(); println(--matrixcount);  
     return inside;
   }
 
@@ -486,10 +490,10 @@ class RadialMenu {
   }
 
   void changeSelectedSegment(float touchX, float touchY) {
-    pushMatrix(); println(++matrixcount);
-    matrices++;
+    //pushMatrix(); println(++matrixcount);
+    //matrices++;
 
-    translate(x, y);
+    //translate(x, y);
 
     float angle = atan2(touchY-y, touchX-x);
     if (angle < 0)  angle += 2*PI;
@@ -500,7 +504,7 @@ class RadialMenu {
         print(i);
       }
     }
-    popMatrix(); println(--matrixcount);
+    //popMatrix(); println(--matrixcount);
     //See which quadrant was last touched and set selected to the index of that quadrant. 0-3 clockwise from bottom right
   }  
 
@@ -541,6 +545,7 @@ class RadialMenu {
       pushStyle();
       //translate(0, 2*rectWidth);
       fill(#FFFF00);
+      noStroke();
       triangle(-rectWidth, 2*rectWidth, 0, 3*rectWidth, rectWidth, 2*rectWidth);
       popStyle();
       //popMatrix(); println(--matrixcount);  
